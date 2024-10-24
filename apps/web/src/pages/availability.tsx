@@ -36,6 +36,9 @@ const AvailabilityQuery = graphql`
       latitude: $latitude
       longitude: $longitude
     ) {
+      search {
+        number
+      }
       hotels {
         edges {
           node {
@@ -43,15 +46,49 @@ const AvailabilityQuery = graphql`
             stars
             address
             pictures
+            latitude
+            longitude
             position {
               center_distance
             }
+            mainFacilities {
+              nonsmoking
+              parking
+              gym
+              sauna
+              poolHeated
+              helpForDisabled
+              internet
+              airconditioning
+            }
             agreements {
+              id
               total
+              available
+              roomType
+              roomBasis
+              mealBasis
+              special
+              cancelationPolicies
+              rooms {
+                type
+                required
+                occupancy
+                price {
+                  from
+                  to
+                  price
+                }
+              }
             }
           }
         }
+        pageInfo {
+          endCursor
+          hasNextPage
+        }
       }
+      id
     }
   }
 `;
@@ -78,7 +115,6 @@ const Availability = () => {
   const checkin = typeof router.query.checkin === 'string' ? router.query.checkin : router.query.checkin?.[0] || '2024-11-24';
   const checkout = typeof router.query.checkout === 'string' ? router.query.checkout : router.query.checkout?.[0] || '2024-11-26';
   const stars = ['4', '5']; // Parámetro fijo de estrellas
-  const rooms = 1; // Número fijo de habitaciones
 
   const selectedCity = cityData[city as keyof typeof cityData];
 
@@ -130,6 +166,7 @@ const Availability = () => {
         <div className="summary-row"><strong>Number of nights:</strong> {calculateNights(checkin, checkout)}</div>
         <div className="summary-row"><strong>Stars:</strong> {stars.join(', ')}</div>
         <div className="summary-row"><strong>Room distribution:</strong> 2 adults, no extrabed, no cot</div>
+        <div className="summary-row"><strong>Search Code:</strong> {`${data.availability.search.number}`}</div>
         <button className="go-back-button" onClick={handleGoBack}>Go back to search</button>
       </aside>
 
@@ -158,9 +195,12 @@ const Availability = () => {
                   <h2>{node.name || 'Unknown Name'}</h2>
                   <p>{node.address || 'Address not available'}</p>
                   <p>Stars: {node.stars ? node.stars : 'No rating'}</p>
-                  <p>
-                    Distance from center: {node.position?.center_distance ? `${node.position.center_distance} km` : 'N/A'}
-                  </p>
+                  <p>Distance from center: {node.position?.center_distance ? `${node.position.center_distance} km` : 'N/A'}</p>
+                  {node.agreements.map((agreement) => (
+                    <div key={agreement.id}>
+                      <p>Agreement ID: {agreement.id}</p>
+                    </div>
+                  ))}
                 </div>
 
                 {/* Columna derecha - Precio y botón */}
