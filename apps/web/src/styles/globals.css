@@ -1,114 +1,179 @@
 /* Global Styles */
 body {
-    margin: 0;
-    padding: 0;
-    font-family: 'Arial', sans-serif;
-    background-color: #faf3e0; /* Suave fondo otoñal */
-    color: #333; /* Texto más oscuro */
-  }
-  
-  .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-  }
-  
-  header {
-    text-align: center;
-    padding: 20px 0; /* Menos padding */
-    background-color: transparent; /* Sin fondo de color */
-  }
-  
-  h1 {
-    font-size: 2.5rem;
-    color: #e76f51; /* Color otoñal más vibrante */
-    margin-bottom: 10px;
-  }
-  
-  p {
-    font-size: 1.1rem;
-    color: #2a9d8f;
-  }
-  
-  main {
-    padding: 40px 0;
-    text-align: center;
-  }
-  
-  form {
-    display: inline-block;
-    text-align: left;
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    width: 300px; /* Ajustar el ancho de la caja */
-  }
-  
-  label {
-    font-size: 1rem;
-    color: #264653;
-  }
-  
-  input[type="text"],
-  input[type="date"] {
-    width: 93%; /* Los inputs ahora ocuparán el 100% del contenedor */
-    padding: 10px;
-    margin: 10px 0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  button {
-    padding: 10px 20px;
-    background-color: #2a9d8f;
-    border: none;
-    color: white;
-    font-size: 1rem;
-    border-radius: 5px;
-    cursor: pointer;
-    width: 100%; /* Botón ocupa el 100% del contenedor */
-  }
-  
-  button:hover {
-    background-color: #e76f51;
-  }
-  
-  .availability-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
-    padding: 20px;
-  }
-  
-  .hotel-card {
-    background-color: white;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    text-align: left;
-  }
-  
-  .hotel-image {
-    width: 100%;
-    border-radius: 10px;
-  }
-  
-  .hotel-details {
-    padding: 15px 0;
-  }
-  
-  .select-button {
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: #2a9d8f;
-    color: white;
-    border-radius: 5px;
-    text-align: center;
-    cursor: pointer;
-  }
-  
-  .select-button:hover {
-    background-color: #e76f51;
-  }
-  
+  margin: 0;
+  padding: 0;
+  font-family: 'Arial', sans-serif;
+  background-color: #faf3e0; /* Suave fondo otoñal */
+  color: #333; /* Texto más oscuro */
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+header {
+  text-align: center;
+  padding: 20px 0; /* Menos padding */
+  background-color: transparent; /* Sin fondo de color */
+}
+
+h1 {
+  font-size: 2.5rem;
+  color: #e76f51; /* Color otoñal más vibrante */
+  margin-bottom: 10px;
+}
+
+p {
+  font-size: 1.1rem;
+  color: #2a9d8f;
+}
+
+main {
+  padding: 20px 20px 20px 0px;
+  text-align: center;
+}
+
+form {
+  display: inline-block;
+  text-align: left;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 300px; /* Ajustar el ancho de la caja */
+}
+
+label {
+  font-size: 1rem;
+  color: #264653;
+}
+
+input[type="text"],
+input[type="date"] {
+  width: 93%; /* Los inputs ahora ocuparán el 100% del contenedor */
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #2a9d8f;
+  border: none;
+  color: white;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%; /* Botón ocupa el 100% del contenedor */
+}
+
+button:hover {
+  background-color: #e76f51;
+}
+
+.availability-page {
+  display: grid;
+  grid-template-columns: 300px 1fr; /* Barra lateral fija y contenido flexible */
+  gap: 20px;
+}
+
+.sidebar {
+  background-color: #f0f0f0;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-size: 1.1rem;
+  margin: 20px;
+}
+
+.sidebar h2 {
+  font-size: 1.5rem;
+  color: #2a9d8f;
+}
+
+.summary-row {
+  margin-bottom: 10px;
+  color: #264653;
+  font-size: 1.1rem;
+}
+
+.go-back-button {
+  padding: 10px 20px;
+  background-color: #2a9d8f;
+  border: none;
+  color: white;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 20px;
+  width: 100%;
+}
+
+.go-back-button:hover {
+  background-color: #e76f51;
+}
+
+.availability-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.hotel-card {
+  display: grid;
+  grid-template-columns: 200px 1fr 150px; /* Tres columnas: imagen, info, precio */
+  gap: 20px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  align-items: center; /* Centrar contenido verticalmente */
+  text-align: left;
+}
+
+.hotel-image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hotel-image {
+  width: 180px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.hotel-info {
+  padding-right: 20px;
+}
+
+.hotel-price {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.price {
+  font-size: 1.5rem;
+  color: #e76f51;
+  margin-bottom: 10px;
+}
+
+.select-button {
+  padding: 10px 20px;
+  background-color: #2a9d8f;
+  border: none;
+  color: white;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.select-button:hover {
+  background-color: #e76f51;
+}
