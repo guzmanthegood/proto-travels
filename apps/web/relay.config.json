@@ -1,0 +1,6 @@
+{
+  "src": "./src",
+  "schema": "./src/graphql/schema.graphql",
+  "language": "typescript",
+  "artifactDirectory": "./src/relay/__generated__"
+}

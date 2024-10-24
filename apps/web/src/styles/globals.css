@@ -1,0 +1,114 @@
+/* Global Styles */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: #faf3e0; /* Suave fondo otoñal */
+    color: #333; /* Texto más oscuro */
+  }
+  
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  header {
+    text-align: center;
+    padding: 20px 0; /* Menos padding */
+    background-color: transparent; /* Sin fondo de color */
+  }
+  
+  h1 {
+    font-size: 2.5rem;
+    color: #e76f51; /* Color otoñal más vibrante */
+    margin-bottom: 10px;
+  }
+  
+  p {
+    font-size: 1.1rem;
+    color: #2a9d8f;
+  }
+  
+  main {
+    padding: 40px 0;
+    text-align: center;
+  }
+  
+  form {
+    display: inline-block;
+    text-align: left;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 300px; /* Ajustar el ancho de la caja */
+  }
+  
+  label {
+    font-size: 1rem;
+    color: #264653;
+  }
+  
+  input[type="text"],
+  input[type="date"] {
+    width: 93%; /* Los inputs ahora ocuparán el 100% del contenedor */
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  button {
+    padding: 10px 20px;
+    background-color: #2a9d8f;
+    border: none;
+    color: white;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%; /* Botón ocupa el 100% del contenedor */
+  }
+  
+  button:hover {
+    background-color: #e76f51;
+  }
+  
+  .availability-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 20px;
+  }
+  
+  .hotel-card {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: left;
+  }
+  
+  .hotel-image {
+    width: 100%;
+    border-radius: 10px;
+  }
+  
+  .hotel-details {
+    padding: 15px 0;
+  }
+  
+  .select-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #2a9d8f;
+    color: white;
+    border-radius: 5px;
+    text-align: center;
+    cursor: pointer;
+  }
+  
+  .select-button:hover {
+    background-color: #e76f51;
+  }
+  

@@ -1,0 +1,22 @@
+{
+  "name": "proto-travel",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "start": "turbo run start",
+    "relay": "turbo run relay",
+    "lint": "turbo run lint",
+    "format": "turbo run format"
+  },
+  "devDependencies": {
+    "eslint": "^9.13.0",
+    "prettier": "^3.3.3",
+    "turbo": "^2.2.3",
+    "typescript": "^5.6.3",
+    "graphql": "^16.9.0",
+    "relay-compiler": "^18.1.0"
+  },
+  "packageManager": "pnpm@7.5.0"
+}
