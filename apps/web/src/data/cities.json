@@ -1,19 +1,100 @@
 {
   "cities": {
+    "AMS": {
+      "name": "Amsterdam",
+      "nationality": "Netherlands",
+      "latitude": "52.3675734",
+      "longitude": "4.9041389"
+    },
+    "BKK": {
+      "name": "Bangkok",
+      "nationality": "Thailand",
+      "latitude": "13.756331",
+      "longitude": "100.501762"
+    },
+    "BER": {
+      "name": "Berlin",
+      "nationality": "Germany",
+      "latitude": "52.520008",
+      "longitude": "13.404954"
+    },
+    "CAN": {
+      "name": "Canberra",
+      "nationality": "Australia",
+      "latitude": "-35.280937",
+      "longitude": "149.130011"
+    },
+    "CPT": {
+      "name": "Cape Town",
+      "nationality": "South Africa",
+      "latitude": "-33.924870",
+      "longitude": "18.424055"
+    },
+    "HKG": {
+      "name": "Hong Kong",
+      "nationality": "China",
+      "latitude": "22.396428",
+      "longitude": "114.109497"
+    },
+    "LOS": {
+      "name": "Lagos",
+      "nationality": "Nigeria",
+      "latitude": "6.5244",
+      "longitude": "3.3792"
+    },
+    "MAD": {
+      "name": "Madrid",
+      "nationality": "Spain",
+      "latitude": "40.41672790000001",
+      "longitude": "-3.7032905"
+    },
+    "MEX": {
+      "name": "Mexico City",
+      "nationality": "Mexico",
+      "latitude": "19.432608",
+      "longitude": "-99.133209"
+    },
+    "NYC": {
+      "name": "New York",
+      "nationality": "USA",
+      "latitude": "40.712776",
+      "longitude": "-74.005974"
+    },
+    "PAR": {
+      "name": "Paris",
+      "nationality": "France",
+      "latitude": "48.8575475",
+      "longitude": "2.3513765"
+    },
+    "ROM": {
+      "name": "Rome",
+      "nationality": "Italy",
+      "latitude": "41.8967068",
+      "longitude": "12.4822025"
+    },
+    "SAO": {
+      "name": "São Paulo",
+      "nationality": "Brazil",
+      "latitude": "-23.550520",
+      "longitude": "-46.633308"
+    },
+    "SYD": {
+      "name": "Sydney",
+      "nationality": "Australia",
+      "latitude": "-33.868820",
+      "longitude": "151.209290"
+    },
+    "TOK": {
+      "name": "Tokyo",
+      "nationality": "Japan",
+      "latitude": "35.676192",
+      "longitude": "139.650311"
+    },
     "VCEI": {
       "name": "Venice",
+      "nationality": "Italy",
       "latitude": "45.440379",
       "longitude": "12.3159547"
-    },
-    "ROME": {
-      "name": "Rome",
-      "latitude": "41.902782",
-      "longitude": "12.496366"
-    },
-    "MIL": {
-      "name": "Milan",
-      "latitude": "45.464211",
-      "longitude": "9.191383"
     }
   }
 }
