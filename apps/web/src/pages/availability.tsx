@@ -1,15 +1,10 @@
 import { useRouter } from 'next/router';
 import { graphql, useLazyLoadQuery } from 'react-relay/hooks';
 import { availabilityQuery } from '../relay/__generated__/availabilityQuery.graphql';
+import citiesData from '../data/cities.json';
 
 // Datos de ciudades con nombre, latitud y longitud
-const cityData = {
-  VCEI: {
-    name: 'Venice',
-    latitude: '45.440379',
-    longitude: '12.3159547',
-  },
-};
+const cityData = citiesData.cities;
 
 // Consulta GraphQL para la disponibilidad
 const AvailabilityQuery = graphql`

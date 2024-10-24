@@ -35,9 +35,9 @@ main {
   text-align: center;
 }
 
-form {
-  display: inline-block;
-  text-align: left;
+.search-form {
+  display: inline-block; /* Permite centrar el formulario */
+  text-align: left; /* Mantiene el texto alineado a la izquierda dentro del formulario */
   background-color: #fff;
   padding: 20px;
   border-radius: 10px;
@@ -46,17 +46,37 @@ form {
 }
 
 label {
-  font-size: 1rem;
-  color: #264653;
+  display: block; /* Asegura que cada etiqueta esté en su propia línea */
+  margin-bottom: 10px; /* Espaciado entre etiquetas */
+  font-weight: bold; /* Resaltar el texto de la etiqueta */
 }
 
+select,
 input[type="text"],
+input[type="date"] {
+  width: 100%; /* Los inputs ahora ocuparán el 100% del contenedor */
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem; /* Ajustar el tamaño de la fuente */
+}
+
 input[type="date"] {
   width: 93%; /* Los inputs ahora ocuparán el 100% del contenedor */
   padding: 10px;
   margin: 10px 0;
   border: 1px solid #ccc;
   border-radius: 5px;
+  font-size: 1rem; /* Ajustar el tamaño de la fuente */
+}
+
+select {
+  appearance: none; /* Eliminar el estilo predeterminado del select */
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.5 5.5a.5.5 0 0 1 .5-.5h12a.5.5 0 0 1 .5.5l-6 6-6-6z"/></svg>'); /* Añadir una flecha hacia abajo como imagen de fondo */
+  background-repeat: no-repeat; /* No repetir la imagen */
+  background-position: right 10px center; /* Posicionar la imagen a la derecha */
+  background-size: 12px; /* Tamaño de la imagen */
 }
 
 button {
