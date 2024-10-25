@@ -9,10 +9,8 @@ function fetchQuery(operation: any, variables: any) {
     const cleanedQuery = operation.text.replace(/\s+/g, ' ');
     const cleanedVariables = JSON.stringify(variables);
 
-    console.log("logRequest:true")
-
-    // console.log('>>>> query: ', cleanedQuery);
-    // console.log('>>>> variables: ', cleanedVariables);
+    console.log('>>>> query: ', cleanedQuery);
+    console.log('>>>> variables: ', cleanedVariables);
   }
 
   return fetch(process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT as string, {
@@ -28,8 +26,7 @@ function fetchQuery(operation: any, variables: any) {
     .then((response) => response.json())
     .then((json) => {
       if (logResponse) {
-        console.log("logResponse:true")
-        // console.log('<<<< response:', JSON.stringify(json).replace(/\s+/g, ' '));
+        console.log('<<<< response:', JSON.stringify(json).replace(/\s+/g, ' '));
       }
       return json;
     })
