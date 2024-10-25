@@ -1,7 +1,8 @@
 import { useRouter } from 'next/router';
-import { graphql, useLazyLoadQuery } from 'react-relay/hooks';
-import { availabilityQuery } from '../relay/__generated__/availabilityQuery.graphql';
+import { graphql } from 'react-relay';
 import citiesData from '../data/cities.json';
+import { fetchQuery } from 'react-relay/hooks'; // Importamos fetchQuery para lanzar la consulta desde el servidor
+import RelayEnvironment from '../relay/RelayEnvironment';
 
 // Datos de ciudades con nombre, latitud y longitud
 const cityData = citiesData.cities;
@@ -51,16 +52,6 @@ const AvailabilityQuery = graphql`
             position {
               center_distance
             }
-            mainFacilities {
-              nonsmoking
-              parking
-              gym
-              sauna
-              poolHeated
-              helpForDisabled
-              internet
-              airconditioning
-            }
             agreements {
               id
               total
@@ -107,41 +98,61 @@ const calculateNights = (checkin: string, checkout: string) => {
   return diffDays;
 };
 
-const Availability = () => {
-  const router = useRouter();
+// `getServerSideProps` para lanzar la consulta en el servidor antes de renderizar la página
+export async function getServerSideProps(context) {
+  const { city, checkin, checkout } = context.query;
 
-  // Parámetros de búsqueda
-  const city = typeof router.query.city === 'string' ? router.query.city : router.query.city?.[0] || 'VCEI';
-  const checkin = typeof router.query.checkin === 'string' ? router.query.checkin : router.query.checkin?.[0] || '2024-11-24';
-  const checkout = typeof router.query.checkout === 'string' ? router.query.checkout : router.query.checkout?.[0] || '2024-11-26';
-  const stars = ['4', '5']; // Parámetro fijo de estrellas
+  // Si los parámetros no están definidos, devolver valores por defecto
+  const validCity = city || 'VCEI';
+  const validCheckin = checkin || '2024-11-24';
+  const validCheckout = checkout || '2024-11-26';
 
-  const selectedCity = cityData[city as keyof typeof cityData];
+  const selectedCity = cityData[validCity];
 
   if (!selectedCity) {
-    return <div>City not found in the database.</div>;
+    return { notFound: true }; // Si no se encuentra la ciudad, devolver un error 404
   }
 
-  const data = useLazyLoadQuery<availabilityQuery>(AvailabilityQuery, {
+  // Hacer la consulta al servidor GraphQL con los parámetros de la URL
+  const data = await fetchQuery(RelayEnvironment, AvailabilityQuery, {
     nationality: 'Italia',
-    checkin,
-    checkout,
-    city,
+    checkin: validCheckin,
+    checkout: validCheckout,
+    city: validCity,
     filters: ['BESTARRANGMENT'],
     details: [{ required: '1', occupancy: '2', extrabed: false, cot: 'false' }],
-    stars,
+    stars: ['4', '5'],
     category: null,
     first: 10,
     after: null,
     latitude: selectedCity.latitude,
     longitude: selectedCity.longitude,
-  });
+  }).toPromise();
+
+  return {
+    props: {
+      data,
+      query: {
+        city: validCity,
+        checkin: validCheckin,
+        checkout: validCheckout,
+        latitude: selectedCity.latitude,
+        longitude: selectedCity.longitude,
+        cityName: selectedCity.name,
+      },
+    },
+  };
+}
+
+const Availability = ({ data, query }) => {
+  const { city, checkin, checkout, latitude, longitude, cityName } = query;
 
   if (!data || !data.availability || !data.availability.hotels?.edges?.length) {
     return <div>No availability found for the given parameters.</div>;
   }
 
   const handleGoBack = () => {
+    const router = useRouter();
     router.push({
       pathname: '/',
       query: {
@@ -157,16 +168,18 @@ const Availability = () => {
       {/* Barra lateral con la información de búsqueda */}
       <aside className="sidebar">
         <h2>Search Summary</h2>
-        <div className="summary-row"><strong>City:</strong> {selectedCity.name}</div>
+        <div className="summary-row"><strong>City:</strong> {cityName}</div>
         <div className="summary-row"><strong>City Code:</strong> {city}</div>
-        <div className="summary-row"><strong>Latitude:</strong> {selectedCity.latitude}</div>
-        <div className="summary-row"><strong>Longitude:</strong> {selectedCity.longitude}</div>
+        <div className="summary-row"><strong>Latitude:</strong> {latitude}</div>
+        <div className="summary-row"><strong>Longitude:</strong> {longitude}</div>
         <div className="summary-row"><strong>Check-in:</strong> {checkin}</div>
         <div className="summary-row"><strong>Check-out:</strong> {checkout}</div>
         <div className="summary-row"><strong>Number of nights:</strong> {calculateNights(checkin, checkout)}</div>
-        <div className="summary-row"><strong>Stars:</strong> {stars.join(', ')}</div>
+        <div className="summary-row"><strong>Stars:</strong> {'4, 5'}</div>
         <div className="summary-row"><strong>Room distribution:</strong> 2 adults, no extrabed, no cot</div>
-        <div className="summary-row"><strong>Search Code:</strong> {`${data.availability.search.number}`}</div>
+        <div className="summary-row">
+          <strong>Search Code:</strong> {`${data.availability.search.number}`}
+        </div>
         <button className="go-back-button" onClick={handleGoBack}>Go back to search</button>
       </aside>
 
