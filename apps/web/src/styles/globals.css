@@ -41,47 +41,36 @@ main.availability {
 }
 
 .search-form {
-  display: inline-block; /* Permite centrar el formulario */
-  text-align: left; /* Mantiene el texto alineado a la izquierda dentro del formulario */
+  display: inline-block;
+  text-align: left;
   background-color: #fff;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  width: 300px; /* Ajustar el ancho de la caja */
+  width: 300px;
+  position: relative; /* Para el icono de la lupa */
 }
 
-label {
-  display: block; /* Asegura que cada etiqueta esté en su propia línea */
-  margin-bottom: 10px; /* Espaciado entre etiquetas */
-  font-weight: bold; /* Resaltar el texto de la etiqueta */
-}
-
-select,
-input[type="text"],
-input[type="date"] {
-  width: 100%; /* Los inputs ahora ocuparán el 100% del contenedor */
-  padding: 10px;
-  margin: 10px 0;
+.search-form input[type="text"] {
+  width: 100%;
+  padding: 10px 40px 10px 40px; /* Espacio para el icono de la lupa */
   border: 1px solid #ccc;
   border-radius: 5px;
-  font-size: 1rem; /* Ajustar el tamaño de la fuente */
+  font-size: 1rem;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M11.742 10.344a6.518 6.518 0 0 0 1.517-4.592 6.5 6.5 0 1 0-2.3 4.601l3.85 3.85a1 1 0 0 0 1.414-1.415l-3.85-3.85-.631.631zm-5.242-.344a5.5 5.5 0 1 1 0-11 5.5 5.5 0 0 1 0 11z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: 10px center;
+  background-size: 20px;
+  box-sizing: border-box;
 }
 
-input[type="date"] {
-  width: 93%; /* Ajusta el ancho del input date */
+.search-form input[type="date"] {
+  width: 100%;
   padding: 10px;
   margin: 10px 0;
   border: 1px solid #ccc;
   border-radius: 5px;
   font-size: 1rem;
-}
-
-select {
-  appearance: none; /* Eliminar el estilo predeterminado del select */
-  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.5 5.5a.5.5 0 0 1 .5-.5h12a.5.5 0 0 1 .5.5l-6 6-6-6z"/></svg>'); /* Flecha */
-  background-repeat: no-repeat;
-  background-position: right 10px center;
-  background-size: 12px;
 }
 
 button {
@@ -99,6 +88,34 @@ button:hover {
   background-color: #e76f51;
 }
 
+/* Estilos para la lista de autocompletado */
+.autocomplete-dropdown {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  max-height: 200px;
+  overflow-y: auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.autocomplete-dropdown li {
+  padding: 10px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.autocomplete-dropdown li:hover {
+  background-color: #f0f0f0;
+}
+
+/* Styles for availability and hotel cards */
 .availability-page {
   display: grid;
   grid-template-columns: 300px 1fr;
@@ -149,19 +166,19 @@ button:hover {
 
 .hotel-card {
   display: grid;
-  grid-template-columns: 200px 1fr 350px; /* Ajusta las columnas: imagen, info, precio */
+  grid-template-columns: 200px 1fr 350px;
   gap: 20px;
   background-color: white;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   padding: 10px;
-  align-items: start; /* Alineado superior */
+  align-items: start;
   text-align: left;
-  width: 100%; /* Asegura que el grid ocupe el 100% del contenedor */
+  width: 100%;
 }
 
 .hotel-image-container, .hotel-info, .hotel-price {
-  padding-top: 20px; /* Padding común para las 3 columnas */
+  padding-top: 20px;
 }
 
 .hotel-image-container {
@@ -186,29 +203,29 @@ button:hover {
 }
 
 .hotel-price {
-  max-width: 330px; /* Controla el ancho máximo para evitar desbordamiento */
+  max-width: 330px;
   padding: 10px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  width: 100%; /* Aseguramos que todo dentro de .hotel-price ocupe el 100% */
+  width: 100%;
 }
 
 .hotel-price select,
 .hotel-price .select-button,
 .hotel-price div {
-  width: 100%; /* Asegura que el selector y el botón ocupen el 100% del ancho del contenedor */
+  width: 100%;
   padding: 10px;
-  margin-bottom: 10px; /* Añade algo de espacio entre el selector y el botón */
+  margin-bottom: 10px;
   border-radius: 5px;
   font-size: 1rem;
   border: 1px solid #ccc;
-  box-sizing: border-box; /* Incluir padding y borde dentro del ancho */
+  box-sizing: border-box;
 }
 
 .hotel-price select {
-  appearance: none; /* Remover el estilo por defecto del navegador */
-  background-color: #fff; /* Color de fondo del selector */
+  appearance: none;
+  background-color: #fff;
   background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.5 5.5a.5.5 0 0 1 .5-.5h12a.5.5 0 0 1 .5.5l-6 6-6-6z"/></svg>');
   background-repeat: no-repeat;
   background-position: right 10px center;
