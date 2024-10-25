@@ -1,23 +1,39 @@
+import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
 import citiesData from '../data/cities.json'; // Asegúrate de ajustar la ruta de tu archivo JSON
 
 const Index = () => {
-  const [cityCode, setCityCode] = useState('');
-  const [checkin, setCheckin] = useState('');
-  const [checkout, setCheckout] = useState('');
+
+  const router = useRouter();
+
+  // Función para calcular fechas por defecto
+  const getDefaultDates = () => {
+    const today = new Date();
+    const checkin = new Date(today.setMonth(today.getMonth() + 1));
+    const checkout = new Date(checkin);
+    checkout.setDate(checkin.getDate() + 3);
+    
+    return {
+      checkin: checkin.toISOString().split('T')[0],
+      checkout: checkout.toISOString().split('T')[0]
+    };
+  };
+
+  const { checkin: defaultCheckin, checkout: defaultCheckout } = getDefaultDates();
+
+  const [cityCode, setCityCode] = useState('VCEI');
+  const [checkin, setCheckin] = useState(defaultCheckin);
+  const [checkout, setCheckout] = useState(defaultCheckout);
+
   const [suggestions, setSuggestions] = useState([]);
   const [isDropdownVisible, setDropdownVisible] = useState(false);
 
   useEffect(() => {
-    const today = new Date();
-    const oneMonthFromNow = new Date();
-    oneMonthFromNow.setMonth(today.getMonth() + 1);
+    const { city: queryCity, checkin: queryCheckin, checkout: queryCheckout } = router.query;
 
-    const checkinDate = oneMonthFromNow.toISOString().split('T')[0];
-    const checkoutDate = new Date(oneMonthFromNow.setDate(oneMonthFromNow.getDate() + 3)).toISOString().split('T')[0];
-
-    setCheckin(checkinDate);
-    setCheckout(checkoutDate);
+    if (queryCity) setCityCode(queryCity as string);
+    if (queryCheckin) setCheckin(queryCheckin as string);
+    if (queryCheckout) setCheckout(queryCheckout as string);
   }, []);
 
   const handleCityChange = (event) => {
@@ -46,10 +62,10 @@ const Index = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    // Aquí redirigimos a la página de disponibilidad con los parámetros seleccionados
-    if (cityCode && checkin && checkout) {
-      window.location.href = `/availability?city=${cityCode}&checkin=${checkin}&checkout=${checkout}`;
-    }
+    router.push({
+      pathname: '/availability',
+      query: { city: cityCode, checkin, checkout },
+    });
   };
 
   return (
@@ -65,7 +81,7 @@ const Index = () => {
               type="text"
               value={cityCode}
               onChange={handleCityChange}
-              placeholder="Search by city, code, or country"
+              placeholder="Search by city..."
               onFocus={() => setDropdownVisible(true)}
               onBlur={() => setTimeout(() => setDropdownVisible(false), 200)}
             />
