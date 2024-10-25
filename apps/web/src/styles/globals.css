@@ -31,7 +31,7 @@ p {
 }
 
 main {
-  padding: 20px 20px 20px 0px;
+  padding: 20px 40px 20px 0px;
   text-align: center;
 }
 
@@ -63,20 +63,20 @@ input[type="date"] {
 }
 
 input[type="date"] {
-  width: 93%; /* Los inputs ahora ocuparán el 100% del contenedor */
+  width: 93%; /* Ajusta el ancho del input date */
   padding: 10px;
   margin: 10px 0;
   border: 1px solid #ccc;
   border-radius: 5px;
-  font-size: 1rem; /* Ajustar el tamaño de la fuente */
+  font-size: 1rem;
 }
 
 select {
   appearance: none; /* Eliminar el estilo predeterminado del select */
-  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.5 5.5a.5.5 0 0 1 .5-.5h12a.5.5 0 0 1 .5.5l-6 6-6-6z"/></svg>'); /* Añadir una flecha hacia abajo como imagen de fondo */
-  background-repeat: no-repeat; /* No repetir la imagen */
-  background-position: right 10px center; /* Posicionar la imagen a la derecha */
-  background-size: 12px; /* Tamaño de la imagen */
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.5 5.5a.5.5 0 0 1 .5-.5h12a.5.5 0 0 1 .5.5l-6 6-6-6z"/></svg>'); /* Flecha */
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 12px;
 }
 
 button {
@@ -87,7 +87,7 @@ button {
   font-size: 1rem;
   border-radius: 5px;
   cursor: pointer;
-  width: 100%; /* Botón ocupa el 100% del contenedor */
+  width: 100%;
 }
 
 button:hover {
@@ -96,7 +96,7 @@ button:hover {
 
 .availability-page {
   display: grid;
-  grid-template-columns: 300px 1fr; /* Barra lateral fija y contenido flexible */
+  grid-template-columns: 300px 1fr;
   gap: 20px;
 }
 
@@ -144,14 +144,19 @@ button:hover {
 
 .hotel-card {
   display: grid;
-  grid-template-columns: 200px 1fr 150px; /* Tres columnas: imagen, info, precio */
+  grid-template-columns: 200px 1fr 350px; /* Ajusta las columnas: imagen, info, precio */
   gap: 20px;
   background-color: white;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  align-items: center; /* Centrar contenido verticalmente */
+  padding: 10px;
+  align-items: start; /* Alineado superior */
   text-align: left;
+  width: 100%; /* Asegura que el grid ocupe el 100% del contenedor */
+}
+
+.hotel-image-container, .hotel-info, .hotel-price {
+  padding-top: 20px; /* Padding común para las 3 columnas */
 }
 
 .hotel-image-container {
@@ -171,29 +176,48 @@ button:hover {
   padding-right: 20px;
 }
 
+.hotel-info h2 {
+  margin-top: 0px;
+}
+
 .hotel-price {
+  max-width: 330px; /* Controla el ancho máximo para evitar desbordamiento */
+  padding: 10px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: flex-start;
+  width: 100%; /* Aseguramos que todo dentro de .hotel-price ocupe el 100% */
 }
 
-.price {
-  font-size: 1.5rem;
-  color: #e76f51;
-  margin-bottom: 10px;
-}
-
-.select-button {
-  padding: 10px 20px;
-  background-color: #2a9d8f;
-  border: none;
-  color: white;
-  font-size: 1rem;
+.hotel-price select,
+.hotel-price .select-button,
+.hotel-price div {
+  width: 100%; /* Asegura que el selector y el botón ocupen el 100% del ancho del contenedor */
+  padding: 10px;
+  margin-bottom: 10px; /* Añade algo de espacio entre el selector y el botón */
   border-radius: 5px;
-  cursor: pointer;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  box-sizing: border-box; /* Incluir padding y borde dentro del ancho */
 }
 
-.select-button:hover {
+.hotel-price select {
+  appearance: none; /* Remover el estilo por defecto del navegador */
+  background-color: #fff; /* Color de fondo del selector */
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.5 5.5a.5.5 0 0 1 .5-.5h12a.5.5 0 0 1 .5.5l-6 6-6-6z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 12px;
+}
+
+.hotel-price .select-button {
+  background-color: #2a9d8f;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.hotel-price .select-button:hover {
   background-color: #e76f51;
 }

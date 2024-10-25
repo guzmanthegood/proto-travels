@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
 import { graphql } from 'react-relay';
+import { useState, useEffect } from 'react';
 import citiesData from '../data/cities.json';
 import { fetchQuery } from 'react-relay/hooks';
 import RelayEnvironment from '../relay/RelayEnvironment';
@@ -91,7 +92,7 @@ const calculateNights = (checkin: string, checkout: string) => {
   const checkoutDate = new Date(checkout);
 
   if (isNaN(checkinDate.getTime()) || isNaN(checkoutDate.getTime())) {
-    return 0; // Si alguna de las fechas es inválida
+    return 0;
   }
 
   const diffTime = Math.abs(checkoutDate.getTime() - checkinDate.getTime());
@@ -147,9 +148,28 @@ const Availability = ({ data, query }) => {
   const { city, checkin, checkout, latitude, longitude, cityName } = query;
   const router = useRouter();
 
-  if (!data || !data.availability || !data.availability.hotels?.edges?.length) {
-    return <div>No availability found for the given parameters.</div>;
-  }
+  const [selectedAgreements, setSelectedAgreements] = useState({});
+
+  useEffect(() => {
+    // Al cargar la página, seleccionamos el acuerdo más barato para cada hotel
+    const initialSelections = {};
+    data.availability.hotels.edges.forEach((edge) => {
+      const node = edge.node;
+      if (node && node.agreements.length > 0) {
+        // Seleccionar el primer acuerdo por defecto (más barato)
+        const cheapestAgreement = node.agreements.reduce((prev, curr) => (parseFloat(curr.total) < parseFloat(prev.total) ? curr : prev));
+        initialSelections[node.code] = cheapestAgreement.id;
+      }
+    });
+    setSelectedAgreements(initialSelections);
+  }, [data]);
+
+  const handleAgreementChange = (hotelCode, agreementId) => {
+    setSelectedAgreements({
+      ...selectedAgreements,
+      [hotelCode]: agreementId,
+    });
+  };
 
   const handleGoBack = () => {
     router.push({
@@ -175,9 +195,7 @@ const Availability = ({ data, query }) => {
         <div className="summary-row"><strong>Number of nights:</strong> {calculateNights(checkin, checkout)}</div>
         <div className="summary-row"><strong>Stars:</strong> {'4, 5'}</div>
         <div className="summary-row"><strong>Room distribution:</strong> 2 adults, no extrabed, no cot</div>
-        <div className="summary-row">
-          <strong>Search Code:</strong> {`${data.availability.search.number}`}
-        </div>
+        <div className="summary-row"><strong>Search Code:</strong> {`${data.availability.search.number}`}</div>
         <button className="go-back-button" onClick={handleGoBack}>Go back to search</button>
       </aside>
 
@@ -187,9 +205,10 @@ const Availability = ({ data, query }) => {
             const node = edge?.node;
             if (!node) return null;
 
+            const selectedAgreement = node.agreements.find((agreement) => agreement.id === selectedAgreements[node.code]);
+
             return (
-              <div key={node.name || 'unknown'} className="hotel-card">
-                {/* Columna izquierda - Imagen */}
+              <div key={node.code} className="hotel-card">
                 <div className="hotel-image-container">
                   {node.pictures?.[0] && (
                     <img
@@ -200,7 +219,6 @@ const Availability = ({ data, query }) => {
                   )}
                 </div>
 
-                {/* Columna central - Información del hotel */}
                 <div className="hotel-info">
                   <h2>{node.name || 'Unknown Name'}</h2>
                   <p>{node.address || 'Address not available'}</p>
@@ -208,16 +226,26 @@ const Availability = ({ data, query }) => {
                   <p>Distance from center: {node.position?.center_distance ? `${node.position.center_distance} km` : 'N/A'}</p>
                 </div>
 
-                {/* Columna derecha - Lista de precios y selección */}
                 <div className="hotel-price">
-                  {node.agreements.map((agreement) => (
-                    <div key={agreement.id} className="agreement-option">
-                      <span>
-                        {agreement.id} - {agreement.roomType} - ${parseFloat(agreement.total || '0').toLocaleString(undefined, {
+                  <select
+                    className="agreement-select"
+                    value={selectedAgreements[node.code] || ''}
+                    onChange={(e) => handleAgreementChange(node.code, e.target.value)}
+                  >
+                    {node.agreements.map((agreement) => (
+                      <option key={agreement.id} value={agreement.id}>
+                        {agreement.roomType} - ${parseFloat(agreement.total || '0').toLocaleString(undefined, {
                           minimumFractionDigits: 2,
                           maximumFractionDigits: 2,
                         })}
-                      </span>
+                      </option>
+                    ))}
+                  </select>
+
+                  {selectedAgreement && (
+                    <div>
+                      <p>{selectedAgreement.roomType}</p>
+                      <p>Price: ${parseFloat(selectedAgreement.total || '0').toLocaleString(undefined, {minimumFractionDigits: 2,maximumFractionDigits: 2,})}</p>
                       <button
                         className="select-button"
                         onClick={() => {
@@ -225,16 +253,16 @@ const Availability = ({ data, query }) => {
                             pathname: '/details',
                             query: {
                               hotelCode: node.code,
-                              agreementCode: agreement.id,
+                              agreementCode: selectedAgreement.id,
                               searchCode: data.availability.search.number,
                             },
                           });
                         }}
                       >
-                        Seleccionar
+                        Details
                       </button>
                     </div>
-                  ))}
+                  )}
                 </div>
               </div>
             );
