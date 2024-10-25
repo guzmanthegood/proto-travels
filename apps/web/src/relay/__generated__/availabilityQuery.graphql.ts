@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<8a41ccb0293d1c9d90420c51247be2ca>>
+ * @generated SignedSource<<46374140574cd8d00d4764766186da83>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -60,18 +60,9 @@ export type availabilityQuery$data = {
             readonly special: string | null | undefined;
             readonly total: string | null | undefined;
           } | null | undefined> | null | undefined;
+          readonly code: string | null | undefined;
           readonly latitude: string | null | undefined;
           readonly longitude: string | null | undefined;
-          readonly mainFacilities: {
-            readonly airconditioning: boolean | null | undefined;
-            readonly gym: boolean | null | undefined;
-            readonly helpForDisabled: boolean | null | undefined;
-            readonly internet: boolean | null | undefined;
-            readonly nonsmoking: boolean | null | undefined;
-            readonly parking: boolean | null | undefined;
-            readonly poolHeated: boolean | null | undefined;
-            readonly sauna: boolean | null | undefined;
-          } | null | undefined;
           readonly name: string | null | undefined;
           readonly pictures: ReadonlyArray<string | null | undefined> | null | undefined;
           readonly position: {
@@ -280,6 +271,13 @@ v13 = [
                     "alias": null,
                     "args": null,
                     "kind": "ScalarField",
+                    "name": "code",
+                    "storageKey": null
+                  },
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
                     "name": "name",
                     "storageKey": null
                   },
@@ -331,73 +329,6 @@ v13 = [
                         "args": null,
                         "kind": "ScalarField",
                         "name": "center_distance",
-                        "storageKey": null
-                      }
-                    ],
-                    "storageKey": null
-                  },
-                  {
-                    "alias": null,
-                    "args": null,
-                    "concreteType": "AvailabilityMainFacilities",
-                    "kind": "LinkedField",
-                    "name": "mainFacilities",
-                    "plural": false,
-                    "selections": [
-                      {
-                        "alias": null,
-                        "args": null,
-                        "kind": "ScalarField",
-                        "name": "nonsmoking",
-                        "storageKey": null
-                      },
-                      {
-                        "alias": null,
-                        "args": null,
-                        "kind": "ScalarField",
-                        "name": "parking",
-                        "storageKey": null
-                      },
-                      {
-                        "alias": null,
-                        "args": null,
-                        "kind": "ScalarField",
-                        "name": "gym",
-                        "storageKey": null
-                      },
-                      {
-                        "alias": null,
-                        "args": null,
-                        "kind": "ScalarField",
-                        "name": "sauna",
-                        "storageKey": null
-                      },
-                      {
-                        "alias": null,
-                        "args": null,
-                        "kind": "ScalarField",
-                        "name": "poolHeated",
-                        "storageKey": null
-                      },
-                      {
-                        "alias": null,
-                        "args": null,
-                        "kind": "ScalarField",
-                        "name": "helpForDisabled",
-                        "storageKey": null
-                      },
-                      {
-                        "alias": null,
-                        "args": null,
-                        "kind": "ScalarField",
-                        "name": "internet",
-                        "storageKey": null
-                      },
-                      {
-                        "alias": null,
-                        "args": null,
-                        "kind": "ScalarField",
-                        "name": "airconditioning",
                         "storageKey": null
                       }
                     ],
@@ -611,16 +542,16 @@ return {
     "selections": (v13/*: any*/)
   },
   "params": {
-    "cacheID": "bb31dc484d9940b8d6f3cf1516ba3c80",
+    "cacheID": "4d6be4c1874a4ad5745db7fa5cd096b1",
     "id": null,
     "metadata": {},
     "name": "availabilityQuery",
     "operationKind": "query",
-    "text": "query availabilityQuery(\n  $nationality: String!\n  $checkin: String!\n  $checkout: String!\n  $city: String\n  $filters: [FilterTypeEnum]\n  $details: [DetailsInputObject!]!\n  $stars: [String!]!\n  $category: CategoryTypeEnum\n  $first: Int\n  $after: String\n  $latitude: String\n  $longitude: String\n) {\n  availability(nationality: $nationality, filters: $filters, checkin: $checkin, checkout: $checkout, category: $category, city: $city, details: $details, stars: $stars, first: $first, after: $after, latitude: $latitude, longitude: $longitude) {\n    search {\n      number\n    }\n    hotels {\n      edges {\n        node {\n          name\n          stars\n          address\n          pictures\n          latitude\n          longitude\n          position {\n            center_distance\n          }\n          mainFacilities {\n            nonsmoking\n            parking\n            gym\n            sauna\n            poolHeated\n            helpForDisabled\n            internet\n            airconditioning\n          }\n          agreements {\n            id\n            total\n            available\n            roomType\n            roomBasis\n            mealBasis\n            special\n            cancelationPolicies\n            rooms {\n              type\n              required\n              occupancy\n              price {\n                from\n                to\n                price\n              }\n            }\n          }\n        }\n      }\n      pageInfo {\n        endCursor\n        hasNextPage\n      }\n    }\n    id\n  }\n}\n"
+    "text": "query availabilityQuery(\n  $nationality: String!\n  $checkin: String!\n  $checkout: String!\n  $city: String\n  $filters: [FilterTypeEnum]\n  $details: [DetailsInputObject!]!\n  $stars: [String!]!\n  $category: CategoryTypeEnum\n  $first: Int\n  $after: String\n  $latitude: String\n  $longitude: String\n) {\n  availability(nationality: $nationality, filters: $filters, checkin: $checkin, checkout: $checkout, category: $category, city: $city, details: $details, stars: $stars, first: $first, after: $after, latitude: $latitude, longitude: $longitude) {\n    search {\n      number\n    }\n    hotels {\n      edges {\n        node {\n          code\n          name\n          stars\n          address\n          pictures\n          latitude\n          longitude\n          position {\n            center_distance\n          }\n          agreements {\n            id\n            total\n            available\n            roomType\n            roomBasis\n            mealBasis\n            special\n            cancelationPolicies\n            rooms {\n              type\n              required\n              occupancy\n              price {\n                from\n                to\n                price\n              }\n            }\n          }\n        }\n      }\n      pageInfo {\n        endCursor\n        hasNextPage\n      }\n    }\n    id\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "2b8330db2621a7b31323c565b4d631e1";
+(node as any).hash = "f137fa6aea0fdd585cd1553859f9e5b2";
 
 export default node;

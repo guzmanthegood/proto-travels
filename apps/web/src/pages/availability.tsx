@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import { graphql } from 'react-relay';
 import citiesData from '../data/cities.json';
-import { fetchQuery } from 'react-relay/hooks'; // Importamos fetchQuery para lanzar la consulta desde el servidor
+import { fetchQuery } from 'react-relay/hooks';
 import RelayEnvironment from '../relay/RelayEnvironment';
 
 // Datos de ciudades con nombre, latitud y longitud
@@ -43,6 +43,7 @@ const AvailabilityQuery = graphql`
       hotels {
         edges {
           node {
+            code
             name
             stars
             address
@@ -102,7 +103,6 @@ const calculateNights = (checkin: string, checkout: string) => {
 export async function getServerSideProps(context) {
   const { city, checkin, checkout } = context.query;
 
-  // Si los parámetros no están definidos, devolver valores por defecto
   const validCity = city || 'VCEI';
   const validCheckin = checkin || '2024-11-24';
   const validCheckout = checkout || '2024-11-26';
@@ -110,10 +110,9 @@ export async function getServerSideProps(context) {
   const selectedCity = cityData[validCity];
 
   if (!selectedCity) {
-    return { notFound: true }; // Si no se encuentra la ciudad, devolver un error 404
+    return { notFound: true };
   }
 
-  // Hacer la consulta al servidor GraphQL con los parámetros de la URL
   const data = await fetchQuery(RelayEnvironment, AvailabilityQuery, {
     nationality: 'Italia',
     checkin: validCheckin,
@@ -146,13 +145,13 @@ export async function getServerSideProps(context) {
 
 const Availability = ({ data, query }) => {
   const { city, checkin, checkout, latitude, longitude, cityName } = query;
+  const router = useRouter();
 
   if (!data || !data.availability || !data.availability.hotels?.edges?.length) {
     return <div>No availability found for the given parameters.</div>;
   }
 
   const handleGoBack = () => {
-    const router = useRouter();
     router.push({
       pathname: '/',
       query: {
@@ -165,7 +164,6 @@ const Availability = ({ data, query }) => {
 
   return (
     <div className="availability-page">
-      {/* Barra lateral con la información de búsqueda */}
       <aside className="sidebar">
         <h2>Search Summary</h2>
         <div className="summary-row"><strong>City:</strong> {cityName}</div>
@@ -183,7 +181,6 @@ const Availability = ({ data, query }) => {
         <button className="go-back-button" onClick={handleGoBack}>Go back to search</button>
       </aside>
 
-      {/* Sección central con la lista de hoteles */}
       <main className="content">
         <div className="availability-container">
           {data.availability.hotels.edges.map((edge) => {
@@ -209,22 +206,35 @@ const Availability = ({ data, query }) => {
                   <p>{node.address || 'Address not available'}</p>
                   <p>Stars: {node.stars ? node.stars : 'No rating'}</p>
                   <p>Distance from center: {node.position?.center_distance ? `${node.position.center_distance} km` : 'N/A'}</p>
-                  {node.agreements.map((agreement) => (
-                    <div key={agreement.id}>
-                      <p>Agreement ID: {agreement.id}</p>
-                    </div>
-                  ))}
                 </div>
 
-                {/* Columna derecha - Precio y botón */}
+                {/* Columna derecha - Lista de precios y selección */}
                 <div className="hotel-price">
-                  <span className="price">
-                    ${parseFloat(node.agreements?.[0]?.total || '0').toLocaleString(undefined, {
-                      minimumFractionDigits: 2,
-                      maximumFractionDigits: 2,
-                    })}
-                  </span>
-                  <button className="select-button">Select</button>
+                  {node.agreements.map((agreement) => (
+                    <div key={agreement.id} className="agreement-option">
+                      <span>
+                        {agreement.id} - {agreement.roomType} - ${parseFloat(agreement.total || '0').toLocaleString(undefined, {
+                          minimumFractionDigits: 2,
+                          maximumFractionDigits: 2,
+                        })}
+                      </span>
+                      <button
+                        className="select-button"
+                        onClick={() => {
+                          router.push({
+                            pathname: '/details',
+                            query: {
+                              hotelCode: node.code,
+                              agreementCode: agreement.id,
+                              searchCode: data.availability.search.number,
+                            },
+                          });
+                        }}
+                      >
+                        Seleccionar
+                      </button>
+                    </div>
+                  ))}
                 </div>
               </div>
             );
