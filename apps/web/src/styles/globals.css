@@ -31,7 +31,12 @@ p {
 }
 
 main {
-  padding: 20px 40px 20px 0px;
+  padding: 20px;
+  text-align: center;
+}
+
+main.availability {
+  padding: 20px 40px 0px 0px;
   text-align: center;
 }
 

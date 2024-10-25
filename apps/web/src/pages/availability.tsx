@@ -199,7 +199,7 @@ const Availability = ({ data, query }) => {
         <button className="go-back-button" onClick={handleGoBack}>Go back to search</button>
       </aside>
 
-      <main className="content">
+      <main className="content availability">
         <div className="availability-container">
           {data.availability.hotels.edges.map((edge) => {
             const node = edge?.node;
